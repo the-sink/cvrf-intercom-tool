@@ -23,6 +23,16 @@ Saving a recording simply involves supplying a file name (if left untouched, it 
 
 In the future, I'd like to have support for automatically converting the output .wav files to other formats, but have not found a good solution for that as of yet.
 
+### Note: File names
+
+* Some words are combined into a single file because they were unable to be spliced apart seamlessly. Currently, those files are: ``isnow``, ``networkteam``, and ``testlab``. Use those file names if looking for the phrases ``is now``, ``network team``, or ``test lab``.
+
+* The files in the base release do not include names that were present in the original announcer lines. These may be included some time in the future.
+
+* You can manually play announcement login sounds using the following as words in you announcement text: ``_login_normal``, ``_login_emergency``, ``_split_normal``, and ``_split_emergency``.
+
+
+
 # Download
 
 The tool can be downloaded on this repo's [Releases](https://github.com/the-sink/cvrf-intercom-tool/releases) page.
