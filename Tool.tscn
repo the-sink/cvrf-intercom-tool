@@ -1,0 +1,186 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Intercom.gd" type="Script" id=1]
+[ext_resource path="res://jkrlogo.png" type="Texture" id=2]
+
+[node name="UI" type="Control"]
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="TextEdit" type="TextEdit" parent="."]
+margin_left = 149.0
+margin_top = 53.0
+margin_right = 659.0
+margin_bottom = 91.0
+syntax_highlighting = true
+fold_gutter = true
+override_selected_font_color = true
+wrap_enabled = true
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FileName" type="TextEdit" parent="."]
+margin_left = 333.836
+margin_top = 94.3482
+margin_right = 658.836
+margin_bottom = 114.348
+text = "File Name"
+fold_gutter = true
+override_selected_font_color = true
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LoginDelay" type="TextEdit" parent="."]
+margin_left = 129.0
+margin_top = 139.0
+margin_right = 208.0
+margin_bottom = 159.0
+text = "0.5"
+fold_gutter = true
+override_selected_font_color = true
+hiding_enabled = true
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PreviewButton" type="Button" parent="."]
+margin_left = 224.0
+margin_top = 94.0
+margin_right = 330.0
+margin_bottom = 135.0
+text = "Preview"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RecordButton" type="Button" parent="."]
+margin_left = 334.084
+margin_top = 115.359
+margin_right = 659.084
+margin_bottom = 135.359
+text = "Record To File"
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_left = 148.297
+margin_top = 15.0657
+margin_right = 602.297
+margin_bottom = 48.0657
+text = "Enter a message to be generated:
+(If a word is not green, it will not be spoken. Use ':' to add a delay.)"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="."]
+margin_left = 18.3475
+margin_top = 120.79
+margin_right = 71.3475
+margin_bottom = 134.79
+text = "Volume:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="."]
+margin_left = 18.3475
+margin_top = 141.678
+margin_right = 124.348
+margin_bottom = 155.678
+text = "Post-login delay:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SeparatorDelay" type="TextEdit" parent="."]
+margin_left = 349.0
+margin_top = 139.0
+margin_right = 428.0
+margin_bottom = 159.0
+text = "0.2"
+fold_gutter = true
+override_selected_font_color = true
+hiding_enabled = true
+caret_blink = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label4" type="Label" parent="."]
+margin_left = 220.348
+margin_top = 141.678
+margin_right = 338.348
+margin_bottom = 155.678
+text = "Separator (:) delay:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Status" type="Label" parent="."]
+margin_left = 18.0
+margin_top = 169.0
+margin_right = 658.0
+margin_bottom = 183.0
+text = "Ready"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CheckBox" type="CheckBox" parent="."]
+margin_left = 12.837
+margin_top = 96.237
+margin_right = 216.837
+margin_bottom = 120.237
+text = "Emergency announcement?"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -71.3575
+margin_top = -15.5173
+margin_right = -71.3575
+margin_bottom = -15.5173
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="logo" type="Sprite" parent="."]
+position = Vector2( 77.914, 55 )
+scale = Vector2( 0.225, 0.225 )
+texture = ExtResource( 2 )
+
+[node name="IntercomPlayer" type="AudioStreamPlayer" parent="."]
+bus = "Record"
+
+[node name="HSlider" type="HSlider" parent="."]
+margin_left = 80.0
+margin_top = 119.556
+margin_right = 210.0
+margin_bottom = 135.556
+min_value = -72.0
+max_value = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="focus_entered" from="FileName" to="." method="_on_FileName_focus_entered"]
+[connection signal="focus_exited" from="FileName" to="." method="_on_FileName_focus_exited"]
+[connection signal="focus_exited" from="LoginDelay" to="." method="_on_LoginDelay_focus_exited"]
+[connection signal="pressed" from="PreviewButton" to="." method="_on_PreviewButton_pressed"]
+[connection signal="pressed" from="RecordButton" to="." method="_on_RecordButton_pressed"]
+[connection signal="focus_exited" from="SeparatorDelay" to="." method="_on_SeparatorDelay_focus_exited"]
+[connection signal="value_changed" from="HSlider" to="." method="_on_HSlider_value_changed"]
