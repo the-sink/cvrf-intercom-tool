@@ -17,8 +17,12 @@ warning: anomalous energy field detected on: level 5: all personnel evacuate imm
 
 By pressing the preview button, the tool will play a login tone first (which is configured with the "Emergency announcement?" checkbox), followed by the sequence of words you give it, adding extra delays after a word based on if a colon is placed at the end.
 
-# Saving recordings
+### Saving recordings
 
 Saving a recording simply involves supplying a file name (if left untouched, it will default to the current unix timestamp which may be confusing) and pressing the "Record to File" button. The announcement will play, similar to the preview button, but will now record the output to a .wav file in the `Recordings` folder of the tool's working directory.
 
 In the future, I'd like to have support for automatically converting the output .wav files to other formats, but have not found a good solution for that as of yet.
+
+# Download
+
+The tool can be downloaded on this repo's [Releases](https://github.com/the-sink/cvrf-intercom-tool/releases) page.
