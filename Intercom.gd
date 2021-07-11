@@ -63,12 +63,12 @@ func execute_announcement():
 		var find = intercom_words.find(word)
 		if find == -1:
 			words_for_broadcast.remove(find)
+	var length
 	if $CheckBox.pressed == true:
-		var length = play_sound(Folder + "_login_emergency.wav")
-		yield(get_tree().create_timer(length + loginDelay), "timeout")
+		length = play_sound(Folder + "_login_emergency.wav")
 	else:
-		var length = play_sound(Folder + "_login_normal.wav")
-		yield(get_tree().create_timer(length + loginDelay), "timeout")
+		length = play_sound(Folder + "_login_normal.wav")
+	yield(get_tree().create_timer(length + loginDelay), "timeout")
 	for word in words_for_broadcast:
 		var extraDelay = false
 		var play = true
@@ -78,7 +78,7 @@ func execute_announcement():
 		if word == "":
 			play = false
 		if play == true: 
-			var length = play_sound(Folder+word+".wav")
+			length = play_sound(Folder+word+".wav")
 			if extraDelay == true:
 				length += separatorDelay
 			yield(get_tree().create_timer(length), "timeout")
