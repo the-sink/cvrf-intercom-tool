@@ -46,6 +46,7 @@ func _ready():
 		input_box.add_keyword_color(word_processed, Color(0,1,0))
 		i += 1
 	input_box.add_color_region(":"," ",Color(1,0,1))
+	$Header.text = ProjectSettings.get_setting("application/config/name") + " - Version " + ProjectSettings.get_setting("application/config/version")
 
 func play_sound(word):
 	player.set_stream(intercom_words[word])#audio_import.loadfile(path))#load(path))

@@ -22,11 +22,12 @@ boot_splash/fullsize=false
 boot_splash/use_filter=false
 boot_splash/bg_color=Color( 0.133333, 0.152941, 0.180392, 1 )
 config/icon="res://jkrlogo.png"
+config/version="1.1"
 
 [display]
 
 window/size/width=675
-window/size/height=190
+window/size/height=200
 window/size/resizable=false
 
 [input]
