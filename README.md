@@ -2,11 +2,12 @@
 
 This is a tool for creating Black Mesa-style announcements using audio spliced from the game's announcer files (not the VOX, but rather the female announcer used before the HECU takeover). This tool was made to allow easier creation of announcements for CVRF, but anyone is free to use and contribute to it.
 
-![Screenshot](https://i.imgur.com/8XBJZhq.png)
+![Screenshot](https://i.imgur.com/M6Wt0Fx.png)
 
 # How to use
 
-Writing an announcement requires entering words into the text box that are present in the tool's IntercomAssets file. There is a collection of around 160 files present in this build (excluding `*.import` files), and more can be added by importing to the project and re-building.
+Writing an announcement requires entering words into the text box that are present in the tool's IntercomAssets folder. There is a collection of around 160 files present in this build, and more can be added by dragging and dropping .wav files into said folder. **Make sure they are encoded as Signed 16-bit PCMs.**
+
 If a word (file name) is present in the assets folder, it will be colored green in the text box.
 
 As well as this, you can use a colon symbol (:) immediately after a word to add a delay. The length of this delay is configurable on the interface, but by default is 200 ms. The example announcement shown in the screenshot is:
@@ -22,6 +23,8 @@ By pressing the preview button, the tool will play a login tone first (which is 
 Saving a recording simply involves supplying a file name (if left untouched, it will default to the current unix timestamp which may be confusing) and pressing the "Record to File" button. The announcement will play, similar to the preview button, but will now record the output to a .wav file in the `Recordings` folder of the tool's working directory.
 
 In the future, I'd like to have support for automatically converting the output .wav files to other formats, but have not found a good solution for that as of yet.
+
+⚠️ If you are experiencing problems with the audio recording coming out completely silent, please check which audio device the program is set to output to. There's an issue report about this [here](https://github.com/the-sink/cvrf-intercom-tool/issues/1).
 
 ### Note: File names
 
