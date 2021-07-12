@@ -1,9 +1,11 @@
 extends Control
 
+var audio_import = preload("res://audio_import.gd")
+
 onready var input_box = $TextEdit
 onready var player = $IntercomPlayer
 
-var intercom_words = []
+var intercom_words = {}
 var effect
 var record
 var playing = false
@@ -33,16 +35,20 @@ func list_files_in_directory(path):
 
 func _ready():
 	effect = AudioServer.get_bus_effect(AudioServer.get_bus_index("Record"), 0)
-	var word_array = list_files_in_directory(OS.get_executable_path() + "/../IntercomAssets/")
+	var root = OS.get_executable_path() + "/../IntercomAssets/"
+	var word_array = list_files_in_directory(root)
+	var total = word_array.size()
+	var i = 1
 	for word in word_array:
 		var word_processed = word.replace(".wav","")
-		print(word_processed)
-		intercom_words.append(word_processed)
+		intercom_words[word] = audio_import.loadfile(root + word)
+		print("Audio preloaded: " + word)
 		input_box.add_keyword_color(word_processed, Color(0,1,0))
+		i += 1
 	input_box.add_color_region(":"," ",Color(1,0,1))
 
-func play_sound(path):
-	player.set_stream(load(path))
+func play_sound(word):
+	player.set_stream(intercom_words[word])#audio_import.loadfile(path))#load(path))
 	player.play()
 	return player.get_stream().get_length()
 
@@ -57,17 +63,16 @@ func set_status():
 func execute_announcement():
 	playing = true
 	set_status()
-	var Folder = OS.get_executable_path() + "\\..\\IntercomAssets\\"
+	#var Folder = OS.get_executable_path() + "\\..\\IntercomAssets\\"
 	var words_for_broadcast = input_box.text.split(" ", false)
 	for word in words_for_broadcast:
-		var find = intercom_words.find(word)
-		if find == -1:
-			words_for_broadcast.remove(find)
+		if intercom_words.has(word) == null:
+			words_for_broadcast.remove(word)
 	var length
 	if $CheckBox.pressed == true:
-		length = play_sound(Folder + "_login_emergency.wav")
+		length = play_sound("_login_emergency.wav")
 	else:
-		length = play_sound(Folder + "_login_normal.wav")
+		length = play_sound("_login_normal.wav")
 	yield(get_tree().create_timer(length + loginDelay), "timeout")
 	for word in words_for_broadcast:
 		var extraDelay = false
@@ -78,7 +83,7 @@ func execute_announcement():
 		if word == "":
 			play = false
 		if play == true: 
-			length = play_sound(Folder+word+".wav")
+			length = play_sound(word+".wav")
 			if extraDelay == true:
 				length += separatorDelay
 			yield(get_tree().create_timer(length), "timeout")
