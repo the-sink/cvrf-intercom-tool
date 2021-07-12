@@ -1,4 +1,5 @@
 #GDScriptAudioImport v0.1
+#https://github.com/Gianclgar/GDScriptAudioImport
 
 #MIT License
 #
