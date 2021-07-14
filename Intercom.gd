@@ -105,10 +105,11 @@ func _on_PreviewButton_pressed():
 
 func _on_RecordButton_pressed():
 	if not effect.is_recording_active() and not playing:
-		# create audio data
-		
 		var assetRoot = root + "IntercomAssets/"
 		var audioData = PoolByteArray()
+		var saveName = ""
+		# process audio data
+
 		#audioData.append_array(load("res://head.wav").data)
 		if $CheckBox.pressed == true:
 			audioData.append_array(audio.getdata(assetRoot + "_login_emergency.wav"))
@@ -128,7 +129,6 @@ func _on_RecordButton_pressed():
 				
 		# write to file
 		
-		var saveName = ""
 		if $FileName.text == "File Name":
 			saveName = str(OS.get_unix_time()) + ".wav"
 		else:
@@ -136,29 +136,6 @@ func _on_RecordButton_pressed():
 		directory.open(root)
 		directory.make_dir("Recordings")
 		audio.writefile(root + "Recordings\\" + saveName, audioData)
-		$Status.text = "Saved: Recordings\\" + saveName
-		yield(get_tree().create_timer(2), "timeout")
-		$RecordButton.disabled = false
-		$PreviewButton.disabled = false
-		$Status.text = "Ready"
-		$RecordButton.text = "Record To File"
-		$IntercomPlayer.stream = record
-
-func old():
-	if not effect.is_recording_active() and not playing:
-		effect.set_recording_active(true)
-		yield(execute_announcement(), "completed")
-		effect.set_recording_active(false)
-		record = effect.get_recording()
-		var data = record.get_data()
-		var saveName = ""
-		if $FileName.text == "File Name":
-			saveName = str(OS.get_unix_time()) + ".wav"
-		else:
-			saveName = $FileName.text.substr(0, 60) + ".wav"
-		directory.open(root)
-		directory.make_dir("Recordings")
-		record.save_to_wav(root + "Recordings\\" + saveName)
 		$Status.text = "Saved: Recordings\\" + saveName
 		yield(get_tree().create_timer(2), "timeout")
 		$RecordButton.disabled = false
