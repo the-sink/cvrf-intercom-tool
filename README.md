@@ -4,6 +4,8 @@ This is a tool for creating Black Mesa-style announcements using audio spliced f
 
 ![Screenshot](https://i.imgur.com/M6Wt0Fx.png)
 
+LouieK22 made a web-based variant of this tool, which is available [here](https://louiek22.github.io/cvrf-audio/).
+
 # How to use
 
 Writing an announcement requires entering words into the text box that are present in the tool's IntercomAssets folder. There is a collection of around 160 files present in this build, and more can be added by dragging and dropping .wav files into said folder. **Make sure they are encoded as Signed 16-bit PCMs.**
