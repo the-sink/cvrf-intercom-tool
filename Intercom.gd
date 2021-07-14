@@ -1,6 +1,6 @@
 extends Control
 
-var audio_import = preload("res://audio_import.gd")
+var audio = preload("res://audio.gd")
 
 onready var input_box = $TextEdit
 onready var player = $IntercomPlayer
@@ -35,13 +35,13 @@ func list_files_in_directory(path):
 
 func _ready():
 	effect = AudioServer.get_bus_effect(AudioServer.get_bus_index("Record"), 0)
-	var root = OS.get_executable_path() + "/../IntercomAssets/"
-	var word_array = list_files_in_directory(root)
+	var assetRoot = root + "IntercomAssets/"
+	var word_array = list_files_in_directory(assetRoot)
 	var total = word_array.size()
 	var i = 1
 	for word in word_array:
 		var word_processed = word.replace(".wav","")
-		intercom_words[word] = audio_import.loadfile(root + word)
+		intercom_words[word] = audio.loadfile(assetRoot + word)
 		print("Audio preloaded: " + word)
 		input_box.add_keyword_color(word_processed, Color(0,1,0))
 		i += 1
@@ -49,7 +49,7 @@ func _ready():
 	$Header.text = ProjectSettings.get_setting("application/config/name") + " - Version " + ProjectSettings.get_setting("application/config/version")
 
 func play_sound(word):
-	player.set_stream(intercom_words[word])#audio_import.loadfile(path))#load(path))
+	player.set_stream(intercom_words[word])
 	player.play()
 	return player.get_stream().get_length()
 
@@ -61,14 +61,18 @@ func set_status():
 	else:
 		$Status.text = "Playing..."
 
-func execute_announcement():
-	playing = true
-	set_status()
-	#var Folder = OS.get_executable_path() + "\\..\\IntercomAssets\\"
+func get_words():
 	var words_for_broadcast = input_box.text.split(" ", false)
 	for word in words_for_broadcast:
 		if intercom_words.has(word) == null:
 			words_for_broadcast.remove(word)
+	return words_for_broadcast
+
+func execute_announcement():
+	playing = true
+	set_status()
+	#var Folder = OS.get_executable_path() + "\\..\\IntercomAssets\\"
+	var words_for_broadcast = get_words()
 	var length
 	if $CheckBox.pressed == true:
 		length = play_sound("_login_emergency.wav")
@@ -99,8 +103,48 @@ func _on_PreviewButton_pressed():
 		$PreviewButton.disabled = false
 		$Status.text = "Ready"
 
-
 func _on_RecordButton_pressed():
+	if not effect.is_recording_active() and not playing:
+		# create audio data
+		
+		var assetRoot = root + "IntercomAssets/"
+		var audioData = PoolByteArray()
+		#audioData.append_array(load("res://head.wav").data)
+		if $CheckBox.pressed == true:
+			audioData.append_array(audio.getdata(assetRoot + "_login_emergency.wav"))
+		else:
+			audioData.append_array(audio.getdata(assetRoot + "_login_normal.wav"))
+		audioData.append_array(audio.generate_silence(loginDelay))
+		for word in get_words():
+			var delay = false
+			print(word)
+			if not word.find(":") == -1:
+				print("delay")
+				word = word.replace(":","")
+				delay = true
+			audioData.append_array(audio.getdata(assetRoot + word + ".wav"))
+			if delay:
+				audioData.append_array(audio.generate_silence(separatorDelay))
+				
+		# write to file
+		
+		var saveName = ""
+		if $FileName.text == "File Name":
+			saveName = str(OS.get_unix_time()) + ".wav"
+		else:
+			saveName = $FileName.text.substr(0, 60) + ".wav"
+		directory.open(root)
+		directory.make_dir("Recordings")
+		audio.writefile(root + "Recordings\\" + saveName, audioData)
+		$Status.text = "Saved: Recordings\\" + saveName
+		yield(get_tree().create_timer(2), "timeout")
+		$RecordButton.disabled = false
+		$PreviewButton.disabled = false
+		$Status.text = "Ready"
+		$RecordButton.text = "Record To File"
+		$IntercomPlayer.stream = record
+
+func old():
 	if not effect.is_recording_active() and not playing:
 		effect.set_recording_active(true)
 		yield(execute_announcement(), "completed")

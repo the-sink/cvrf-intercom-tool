@@ -64,6 +64,7 @@ static func loadfile(filepath):
 
 		for i in range(0, 100):
 			var those4bytes = str(char(bytes[i])+char(bytes[i+1])+char(bytes[i+2])+char(bytes[i+3]))
+			print(those4bytes)
 
 			if those4bytes == "fmt ":
 				var fsc0 = i+8
@@ -91,6 +92,9 @@ static func loadfile(filepath):
 	else:
 		print ("ERROR: Wrong filetype or format")
 	file.close()
+	
+#static func writefile(path):
+	
 
 
 # ---------- REFERENCE ---------------
